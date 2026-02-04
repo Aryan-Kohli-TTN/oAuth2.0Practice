@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>demo</artifactId>
+	<artifactId>resourceServer</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>DemoProject</name>
 	<description>Demo project for KeyCloak </description>
