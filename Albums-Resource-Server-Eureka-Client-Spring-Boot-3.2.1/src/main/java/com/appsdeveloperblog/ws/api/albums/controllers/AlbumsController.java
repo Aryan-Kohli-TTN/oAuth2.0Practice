@@ -32,7 +32,7 @@ public class AlbumsController {
         album2.setAlbumTitle("Album two title");
         album2.setAlbumDescription("Album 2 description");
         album2.setAlbumUrl("Album 2 URL");
-         
+        System.out.println("data returned from here");
         return Arrays.asList(album1, album2);
     }
  
