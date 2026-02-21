@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PKCE PHOTO WEB APP</title>
+</head>
+<body>
+<H1>HIII </H1>
+<script type="text/javascript">
+
+        // Get query params from URL
+        var params = new URLSearchParams(window.location.search);
+
+        var code = params.get("code");
+        var state = params.get("state");
+        var error = params.get("error");
+        var errorDescription = params.get("error_description");
+
+        // If error exists → show alert
+        if (error) {
+            window.alert("Authorization Error: " + error +
+                (errorDescription ? "\nDescription: " + errorDescription : ""));
+        }
+        else{
+            window.opener.postAuthorize(state ,code);
+        }
+        window.close();
+
+</script>
+</body>
+</html>

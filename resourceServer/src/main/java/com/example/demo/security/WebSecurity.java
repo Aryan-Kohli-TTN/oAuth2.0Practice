@@ -8,6 +8,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -19,7 +24,7 @@ public class WebSecurity {
         JwtAuthenticationConverter jwtAuthenticationConverter = new JwtAuthenticationConverter();
         jwtAuthenticationConverter.setJwtGrantedAuthoritiesConverter(new KeyCloakConverter());
 
-        http.authorizeHttpRequests(authz->
+        http.cors(cors -> {})  .csrf(csrf -> csrf.disable()).authorizeHttpRequests(authz->
                         authz
 //                                .requestMatchers(HttpMethod.GET,"/user/**").hasAuthority("SCOPE_profile")
                                 .requestMatchers("/user/**").hasRole("developer")
@@ -27,5 +32,24 @@ public class WebSecurity {
                 .oauth2ResourceServer(auth->
                         auth.jwt(jwt->jwt.jwtAuthenticationConverter(jwtAuthenticationConverter)));
         return http.build();
+    }
+    @Bean
+    CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+
+        configuration.setAllowedOrigins(List.of("http://localhost:8095"));
+        // change to your frontend URL
+
+        configuration.setAllowedMethods(List.of(
+                "GET", "POST", "PUT", "DELETE", "OPTIONS"
+        ));
+
+        configuration.setAllowedHeaders(List.of("*"));
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+
+        return source;
     }
 }
